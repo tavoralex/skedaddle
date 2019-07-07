@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="theme-color" content="#000000" />
+        <script>
+            // Check if a new cache is available on page load.
+            window.addEventListener(
+                "load",
+                function(e) {
+                    window.applicationCache.addEventListener(
+                        "updateready",
+                        function(e) {
+                            if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+                                // Browser downloaded a new app cache.
+                                // Swap it in and reload the page to get the new hotness.
+                                window.applicationCache.swapCache();
+                                if (confirm("A new version is available. Load it?")) {
+                                    window.location.reload();
+                                }
+                            } else {
+                                // Manifest didn't changed. Nothing new to server.
+                            }
+                        },
+                        false
+                    );
+                },
+                false
+            );
+        </script>
+        <link rel="manifest" href="manifest.json" />
+        <link rel="shortcut icon" href="favicon.ico" />
+        <title>Skedaddle</title>
+    </head>
+    <body>
+        <noscript> You need to enable JavaScript to run this app. </noscript>
+        <div id="root"></div>
+    </body>
+</html>

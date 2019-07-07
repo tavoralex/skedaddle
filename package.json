@@ -1,0 +1,41 @@
+{
+    "name": "skedaddle",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "peerjs": "^1.0.0",
+        "pixi-viewport": "^4.0.0-beta.3",
+        "pixi.js": "^5.0.4",
+        "react": "^16.8.6",
+        "react-dom": "^16.8.6",
+        "react-scripts": "3.0.1"
+    },
+    "devDependencies": {
+        "@types/pixi.js": "^4.8.8",
+        "@types/peerjs": "0.0.30",
+        "@types/react": "^16.8.23",
+        "@types/react-dom": "^16.8.4",
+        "typescript": "^3.5.2"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
+}
