@@ -12,6 +12,10 @@ import {IScent} from "scentmap/scent/types";
 import timeVariableLoop, {ITime} from "utils/loop/timeVariableLoop";
 import {addDropFunctionality} from "game/addDropFunctionality";
 import makeScentDropper from "scentmap/scent/makeScentDropper";
+import {makeCollectors} from "game/makeCollectors";
+import {Hud} from "hud/Hud";
+import {HudState} from "hud/types";
+import {observable} from "mobx";
 
 /*
   TODO
@@ -29,11 +33,22 @@ import makeScentDropper from "scentmap/scent/makeScentDropper";
         * 1 scent
             * repulse
             * tweak in scent-grid
+    * boid collecting walls
+        * init with positions
+            * top
+            * bottom
+        * displays
+        * collision detection
+            * destroy touching boid
+            * collision effect on collided collector
+                * tween scale & alpha
+    * results counter
+        * nice font
+        * player 1 score
+        * player 2 score
     fillbar
         spend rate
         refill rate
-    boid collecting walls
-    results counter
     peer connection
       pass data
       coordinate
@@ -60,7 +75,7 @@ const boidTemplate = {
     hue: 0xaa0000,
     weights: {
         separation: 6,
-        cohesion: 1,
+        cohesion: 4,
         seekScent: 6,
         avoidScent: 8,
         avoidObstacles: 10,
@@ -115,13 +130,27 @@ const makeScentDroppers = (map: GridMap, scent: IScent) => {
     return {update, droppers};
 };
 
-function initialize(gameCanvas: HTMLDivElement) {
+function initialize(gameCanvas: HTMLDivElement, hudState: HudState) {
+    const onTopScored = () => {
+        hudState.top += 1;
+    };
+    const onBottomScored = () => {
+        hudState.bottom += 1;
+    };
     const map = makeMap(gameCanvas);
     const scent = makeAvoidScent(map);
     const boids = makeBoids(map, scent.data);
     const droppers = makeScentDroppers(map, scent.data);
+    const collectors = makeCollectors({
+        display: map.display,
+        grid: map.grid,
+        boids,
+        colors,
+        actions: {onTopScored, onBottomScored}
+    });
 
     const update = (delta: number) => {
+        collectors.update(delta);
         droppers.update(delta);
         scent.update(delta);
         boids.update(delta);
@@ -131,14 +160,17 @@ function initialize(gameCanvas: HTMLDivElement) {
     timeVariableLoop(time, update);
 }
 
+const colors = {top: 0x0000ff, bottom: 0x00ff00};
+
 function App() {
     const canvasRef = useRef(null as HTMLDivElement | null);
+    const hudState = observable({top: 0, bottom: 0, colors});
     useEffect(() => {
-        canvasRef.current && initialize(canvasRef.current);
+        canvasRef.current && initialize(canvasRef.current, hudState);
     }, [canvasRef]);
     return (
         <div ref={canvasRef}>
-            <div style={{position: "fixed", color: "white"}}>{`HUD GOES HERE`}</div>
+            <Hud {...{data: hudState}} />
         </div>
     );
 }

@@ -1,5 +1,9 @@
+@font-face {
+    font-family: "PressStart2P";
+    src: local("PressStart2P"), url("./fonts/PressStart2P.ttf") format("truetype");
+}
 body {
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
+    font-family: PressStart2P;
 }
