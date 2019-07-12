@@ -16,10 +16,10 @@ const INITIAL_BOIDS = 0;
 const MAX_BOIDS = 200;
 
 export class GridBoids {
-    public boids: IGridBoid[];
-    public boidViews: PIXI.Sprite[];
-    private occupiableNodes: Array<Set<IGridBoid>>;
-    private numNodes: number;
+    public boids!: IGridBoid[];
+    public boidViews!: PIXI.Sprite[];
+    private occupiableNodes!: Array<Set<IGridBoid>>;
+    private numNodes!: number;
 
     constructor(
         public boidTemplate: IBoidTemplate,
@@ -28,12 +28,26 @@ export class GridBoids {
         public walls: number[],
         public scentToAvoid: IScent
     ) {
-        this.boids = (makeBoids(INITIAL_BOIDS, boidTemplate) as any) as IGridBoid[];
-        const boidViewsObj = makeBoidsViews(display.hexTexture, MAX_BOIDS);
-        display.camera.addChild(boidViewsObj.view);
+        this.initialize();
+    }
+
+    private initialize() {
+        this.boids = (makeBoids(INITIAL_BOIDS, this.boidTemplate) as any) as IGridBoid[];
+        const boidViewsObj = makeBoidsViews(this.display.hexTexture, MAX_BOIDS);
+        this.display.camera.addChild(boidViewsObj.view);
         this.boidViews = boidViewsObj.sprites;
-        this.occupiableNodes = Array.from(grid.gridArr, node => new Set<IGridBoid>());
-        this.numNodes = grid.gridArr.length;
+        this.occupiableNodes = Array.from(this.grid.gridArr, node => new Set<IGridBoid>());
+        this.numNodes = this.grid.gridArr.length;
+    }
+
+    public reset() {
+        if (this.boidViews && this.boidViews.length) {
+            const view = this.boidViews[0].parent;
+            if (view.parent) {
+                view.parent.removeChild(view);
+            }
+        }
+        this.initialize();
     }
 
     public update(delta?: number) {

@@ -30,7 +30,7 @@ export function makeCollectors(p: {
         sprite.scale.set(1, 1);
 
         const effectSprite = effectSprites[i];
-        effectSprite.tint = i < top.length ? 0x0000ff : 0x00ff00;
+        effectSprite.tint = i < top.length ? colors.top : colors.bottom;
         effectSprite.position.set(p.x + effectSprite.width / 2, p.y + effectSprite.height / 2);
         effectSprite.scale.set(1, 1);
         effectSprite.anchor.set(0.5, 0.5);

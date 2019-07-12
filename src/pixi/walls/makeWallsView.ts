@@ -9,7 +9,7 @@ export function makeWallsView(grid: Grid, walls: number[], tex: PIXI.Texture) {
         const sprite = new PIXI.Sprite(tex);
         sprite.position.set(node.position.x, node.position.y);
         view.addChild(sprite);
-        sprite.tint = 0;
+        sprite.tint = 0xffff80;
         sprite.alpha = Math.abs(walls[i] - 1);
         return sprite;
     });

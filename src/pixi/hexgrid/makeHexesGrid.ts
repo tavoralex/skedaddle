@@ -10,6 +10,7 @@ export function makeHexesGrid(grid: Grid, tex: PIXI.Texture, tint: number = 0xdd
         sprite.position.set(node.position.x, node.position.y);
         view.addChild(sprite);
         sprite.tint = tint;
+        sprite.alpha = 0;
         return sprite;
     });
 

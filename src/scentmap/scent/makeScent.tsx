@@ -5,7 +5,7 @@ import Grid from "../hexgrid/Grid";
 export function makeScent(
     grid: Grid,
     spread: number = 15,
-    evaporation: number = 0.75,
+    evaporation: number = 0.9,
     quantity: number = 10,
     hue: number = 8454143,
     minValue: number = 0.001,

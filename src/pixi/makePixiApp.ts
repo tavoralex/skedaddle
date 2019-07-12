@@ -4,7 +4,7 @@ export function makePixiApp(width: number = window.innerWidth, height: number = 
     const app = new PIXI.Application({
         width,
         height,
-        backgroundColor: 0x00
+        transparent: true
     });
     return app;
 }
