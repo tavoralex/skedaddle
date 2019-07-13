@@ -15,8 +15,8 @@ export default function repaintWithNoise(
 ) {
     const noiseScale = !scale ? Math.sqrt(grid.gridArr.length) * 12 : scale;
     sprites.forEach((sprite: Sprite, i: number) => {
-        const pos = grid.gridArr[i].position;
-        const rgb2 = hslToRgb(noise.simplex3(pos.x / noiseScale, pos.y / noiseScale, step), 0.5, 0.5);
+        const position = grid.gridArr[i].position;
+        const rgb2 = hslToRgb(noise.simplex3(position.x / noiseScale, position.y / noiseScale, step), 0.5, 0.5);
         const tint = rgbArrayToHex(rgb2);
         sprite.tint = tint;
     });

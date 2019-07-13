@@ -21,7 +21,7 @@ export const DuelOver = (p: {data: GameState}) => {
                     justifySelf: "center",
                     fontWeight: 600,
                     color: "red",
-                    fontSize: "32pt"
+                    fontSize: "28pt"
                 }}>
                 {`GAME OVER`}
             </div>
@@ -52,7 +52,8 @@ export const DuelOver = (p: {data: GameState}) => {
                     {...{
                         title: "BACK",
                         onClick: () => {
-                            data.gameState = GAME_STATE.intro;
+                            data.actions.reset && data.actions.reset();
+                            data.gameState = GAME_STATE.lobby;
                         }
                     }}
                 />

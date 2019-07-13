@@ -6,6 +6,7 @@ import {Button} from "components/common/Button";
 export const IntroScreen = (p: {data: GameState}) => {
     const {data} = p;
     const [isVisible, setisVisible] = useState(data.gameState === GAME_STATE.intro);
+
     useEffect(() => {
         return autorun(() => {
             setisVisible(data.gameState === GAME_STATE.intro);
@@ -60,9 +61,9 @@ export const IntroScreen = (p: {data: GameState}) => {
                 }}>
                 <Button
                     {...{
-                        title: "FIGHT!",
+                        title: "DUEL!",
                         onClick: () => {
-                            data.gameState = GAME_STATE.duel;
+                            data.gameState = GAME_STATE.lobby;
                         }
                     }}
                 />

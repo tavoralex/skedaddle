@@ -9,7 +9,7 @@ export const About = (p: {data: GameState}) => {
                 height: `${window.innerHeight}px`,
                 width: `${window.innerWidth}px`,
                 display: "grid",
-                gridTemplateRows: "1fr 1fr 1fr 1fr",
+                gridTemplateRows: "100px 1fr 1fr 1fr 1fr",
                 gridTemplateColumns: "1fr",
                 backgroundColor: "black"
             }}>
@@ -17,7 +17,7 @@ export const About = (p: {data: GameState}) => {
                 style={{
                     gridRow: 1,
                     gridColumn: 1,
-                    alignSelf: "center",
+                    alignSelf: "end",
                     justifySelf: "center",
                     fontWeight: 600,
                     color: "#80c0ff",
@@ -40,13 +40,15 @@ export const About = (p: {data: GameState}) => {
                         justifySelf: "center",
                         fontWeight: 400,
                         color: "white",
-                        fontSize: "22pt",
+                        fontSize: "16pt",
                         textAlign: "center",
-                        whiteSpace: "pre-line"
+                        whiteSpace: "pre-line",
+                        paddingLeft: "8px",
+                        paddingRight: "8px"
                     }}>
-                    {`a 2-player game  
-
-                    by Alex Tavor`}
+                    {`a 2-player game by 
+                    `}
+                    <span style={{fontSize: "24pt", color: "#80ff80"}}>{`Alex Tavor`}</span>
                 </div>
             </div>
             <div
@@ -66,14 +68,40 @@ export const About = (p: {data: GameState}) => {
                         color: "white",
                         fontSize: "22pt",
                         textAlign: "center",
-                        whiteSpace: "pre-line"
+                        whiteSpace: "pre-line",
+                        paddingRight: "8px",
+                        paddingLeft: "8px"
+                    }}>
+                    {`Duel by pushing things up with your finger!`}
+                </div>
+            </div>
+            <div
+                style={{
+                    gridRow: 4,
+                    gridColumn: 1,
+                    alignSelf: "center",
+                    justifySelf: "center"
+                }}>
+                <div
+                    style={{
+                        gridRow: 1,
+                        gridColumn: 1,
+                        alignSelf: "center",
+                        justifySelf: "center",
+                        fontWeight: 400,
+                        color: "white",
+                        fontSize: "22pt",
+                        textAlign: "center",
+                        whiteSpace: "pre-line",
+                        paddingRight: "8px",
+                        paddingLeft: "8px"
                     }}>
                     {`Tell your friends!`}
                 </div>
             </div>
             <div
                 style={{
-                    gridRow: 4,
+                    gridRow: 5,
                     gridColumn: 1,
                     alignSelf: "center",
                     justifySelf: "center"

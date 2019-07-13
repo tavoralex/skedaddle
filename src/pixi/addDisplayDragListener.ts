@@ -31,8 +31,8 @@ export default function addDisplayDragListener(
     };
 
     const onTouchMove = (data: PIXI.interaction.InteractionEvent) => {
-        const pos = data.data.global;
-        const node = getNodeByPixel(display.camera.toWorld(pos.x, pos.y));
+        const position = data.data.global;
+        const node = getNodeByPixel(display.camera.toWorld(position.x, position.y));
         if (isNaN(node)) return;
         onMove(node);
     };

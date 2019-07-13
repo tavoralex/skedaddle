@@ -5,7 +5,7 @@ import {autorun} from "mobx";
 import {DuelOver} from "./DuelOver";
 
 const fontStyle = {
-    textShadow: "-1px -1px 0 #ffffff,1px -1px 0 #ffffff,-1px 1px 0 #ffffff,1px 1px 0 #ffffff",
+    textShadow: "-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000",
     position: "fixed" as "fixed",
     fontSize: "24pt"
 };
@@ -25,12 +25,13 @@ export const HudDuel = (p: {data: GameState}) => {
     const [topFillbarValue, settopFillbarValue] = useState(p.data.fillbars.top / p.data.fillbars.max);
     useEffect(() => {
         return autorun(() => setBottomFillbarValue(p.data.fillbars.bottom / p.data.fillbars.max));
-    }, [p.data.fillbars.bottom]);
+    }, [p.data.fillbars.bottom, p.data.fillbars.max]);
     useEffect(() => {
         return autorun(() => settopFillbarValue(p.data.fillbars.top / p.data.fillbars.max));
-    }, [p.data.fillbars.top]);
+    }, [p.data.fillbars.top, p.data.fillbars.max]);
 
     const [isGameOver, setisGameOver] = useState(p.data.isGameOver);
+
     useEffect(() => {
         return autorun(() => setisGameOver(p.data.isGameOver));
     }, []);

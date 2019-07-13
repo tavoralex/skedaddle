@@ -6,7 +6,7 @@ import {Button} from "components/common/Button";
 import {PracticeOver} from "./PracticeOver";
 
 const fontStyle = {
-    textShadow: "-1px -1px 0 #ffffff,1px -1px 0 #ffffff,-1px 1px 0 #ffffff,1px 1px 0 #ffffff",
+    textShadow: "-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000",
     position: "fixed" as "fixed",
     fontSize: "24pt"
 };
@@ -14,15 +14,18 @@ const fontStyle = {
 export const HudPractice = (p: {data: GameState}) => {
     const {data} = p;
     const [topValue, settopValue] = useState(p.data.score.top);
+
     useEffect(() => {
         return autorun(() => settopValue(p.data.score.top));
     }, [p.data.score.top]);
 
     const [topFillbarValue, settopFillbarValue] = useState(p.data.fillbars.top / p.data.fillbars.max);
+
     useEffect(() => {
         return autorun(() => settopFillbarValue(p.data.fillbars.top / p.data.fillbars.max));
     }, []);
     const [isGameOver, setisGameOver] = useState(p.data.isGameOver);
+
     useEffect(() => {
         return autorun(() => setisGameOver(p.data.isGameOver));
     }, []);

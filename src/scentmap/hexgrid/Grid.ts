@@ -64,8 +64,8 @@ export default class Grid {
         return {...node.position};
     }
 
-    public getHexIdByPixel(pos: IPoint): number {
-        const hex = this._layout.pixelToHex(pos).round();
+    public getHexIdByPixel(position: IPoint): number {
+        const hex = this._layout.pixelToHex(position).round();
         return this.gridHash[hex.id];
     }
 }

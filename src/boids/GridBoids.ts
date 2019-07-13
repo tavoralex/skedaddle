@@ -60,6 +60,7 @@ export class GridBoids {
         this.boids.push(b);
         b.position = {...position};
         b.node = this.grid.getHexIdByPixel(b.position);
+        return b;
     }
 
     public addBoidAtNode(nodeId: number) {
@@ -67,6 +68,7 @@ export class GridBoids {
         this.boids.push(b);
         b.node = nodeId;
         b.position = this.grid.getPosAtNode(nodeId);
+        return b;
     }
 
     public removeBoid(boid?: IGridBoid) {

@@ -2,14 +2,15 @@ import React, {useState, useEffect} from "react";
 
 export const Button = (p: {
     title: string;
-    onClick: () => void;
+    onClick?: () => void;
     colors?: {default: string; hover: string; down: string};
     style?: any;
     textStyle?: any;
     children?: any;
+    disabled?: boolean;
 }) => {
     const styleDefault = {
-        minWidth: "300px",
+        width: "300px",
         height: "60px",
         backgroundColor: p.colors ? p.colors.default : "#ffff80",
         display: "grid",
@@ -19,17 +20,24 @@ export const Button = (p: {
     const [isDown, setisDown] = useState(false);
     const [isHover, setIsHover] = useState(false);
     const [style, setStyle] = useState(styleDefault);
+    const colorDown = p.colors ? p.colors.down : "green";
+    const colorHover = p.colors ? p.colors.hover : "lightgrey";
+
     useEffect(() => {
+        if (p.disabled) {
+            setStyle({...styleDefault, color: "darkgrey", backgroundColor: "lightgrey", pointerEvents: "none"});
+            return;
+        }
         if (isDown) {
-            setStyle({...styleDefault, backgroundColor: p.colors ? p.colors.down : "green"});
+            setStyle({...styleDefault, backgroundColor: colorDown});
             return;
         }
         if (isHover) {
-            setStyle({...styleDefault, backgroundColor: p.colors ? p.colors.hover : "lightgrey"});
+            setStyle({...styleDefault, backgroundColor: colorHover});
             return;
         }
-        setStyle(styleDefault);
-    }, [isDown, isHover]);
+        setStyle({...styleDefault});
+    }, [isDown, isHover, colorDown, colorHover, styleDefault, p.disabled]);
 
     return (
         <div

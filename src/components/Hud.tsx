@@ -6,10 +6,12 @@ import {HudDuel} from "./duel/HudDuel";
 import {IntroScreen} from "./intro/IntroScreen";
 import {autorun} from "mobx";
 import {About} from "./info/About";
+import {Lobby} from "./lobby/Lobby";
 
 export const Hud = (p: {gameState: GameState}) => {
     let hud = undefined;
     const [gameState, setgameState] = useState(p.gameState.gameState);
+
     useEffect(() => {
         return autorun(() => setgameState(p.gameState.gameState));
     }, []);
@@ -25,6 +27,9 @@ export const Hud = (p: {gameState: GameState}) => {
             break;
         case GAME_STATE.about:
             hud = <About {...{data: p.gameState}} />;
+            break;
+        case GAME_STATE.lobby:
+            hud = <Lobby {...{data: p.gameState}} />;
             break;
         default:
             break;
