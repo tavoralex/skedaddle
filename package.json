@@ -1,9 +1,11 @@
 {
     "name": "skedaddle",
-    "version": "0.1.0",
+    "homepage": "https://tavoralex.github.io/skedaddle",
+    "version": "0.5.0",
     "private": true,
     "dependencies": {
         "es6-tween": "^5.5.10",
+        "gh-pages": "^2.0.1",
         "mobx": "^5.11.0",
         "mobx-utils": "^5.4.1",
         "peerjs": "^1.0.0",
@@ -21,6 +23,8 @@
         "typescript": "^3.5.2"
     },
     "scripts": {
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d build",
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
