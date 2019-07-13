@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/skedaddle/static/css/main.496e2034.chunk.css",
+    "main.js": "/skedaddle/static/js/main.fba4a2ac.chunk.js",
+    "main.js.map": "/skedaddle/static/js/main.fba4a2ac.chunk.js.map",
+    "runtime~main.js": "/skedaddle/static/js/runtime~main.85ff9bdf.js",
+    "runtime~main.js.map": "/skedaddle/static/js/runtime~main.85ff9bdf.js.map",
+    "static/js/2.d33a53b1.chunk.js": "/skedaddle/static/js/2.d33a53b1.chunk.js",
+    "static/js/2.d33a53b1.chunk.js.map": "/skedaddle/static/js/2.d33a53b1.chunk.js.map",
+    "index.html": "/skedaddle/index.html",
+    "precache-manifest.072ff7272c36b6aa8802b97140491081.js": "/skedaddle/precache-manifest.072ff7272c36b6aa8802b97140491081.js",
+    "service-worker.js": "/skedaddle/service-worker.js",
+    "static/css/main.496e2034.chunk.css.map": "/skedaddle/static/css/main.496e2034.chunk.css.map",
+    "static/media/index.css": "/skedaddle/static/media/PressStart2P.74496d90.ttf"
+  }
+}
