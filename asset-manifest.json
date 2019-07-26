@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/skedaddle/static/css/main.496e2034.chunk.css",
-    "main.js": "/skedaddle/static/js/main.461182d4.chunk.js",
-    "main.js.map": "/skedaddle/static/js/main.461182d4.chunk.js.map",
+    "main.js": "/skedaddle/static/js/main.174217b4.chunk.js",
+    "main.js.map": "/skedaddle/static/js/main.174217b4.chunk.js.map",
     "runtime~main.js": "/skedaddle/static/js/runtime~main.85ff9bdf.js",
     "runtime~main.js.map": "/skedaddle/static/js/runtime~main.85ff9bdf.js.map",
     "static/js/2.cc10213e.chunk.js": "/skedaddle/static/js/2.cc10213e.chunk.js",
     "static/js/2.cc10213e.chunk.js.map": "/skedaddle/static/js/2.cc10213e.chunk.js.map",
     "index.html": "/skedaddle/index.html",
-    "precache-manifest.280d06a448ebb0a2770adc0b2f4afc76.js": "/skedaddle/precache-manifest.280d06a448ebb0a2770adc0b2f4afc76.js",
+    "precache-manifest.cdb45ae3a7003a550f3a0a94af15e3ed.js": "/skedaddle/precache-manifest.cdb45ae3a7003a550f3a0a94af15e3ed.js",
     "service-worker.js": "/skedaddle/service-worker.js",
     "static/css/main.496e2034.chunk.css.map": "/skedaddle/static/css/main.496e2034.chunk.css.map",
     "static/media/index.css": "/skedaddle/static/media/PressStart2P.74496d90.ttf"
