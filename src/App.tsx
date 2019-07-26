@@ -31,10 +31,12 @@ import {getLobbyState} from "components/lobby/getLobbyState";
         * find/await peer, make connection
         *  get mutual agreement to play
             * each has to click "READY"
-        pass data
-            use PeerData
-                get tap positions
-                update and dispatch every tick
+        * pass data
+            * use PeerData
+                * get tap positions
+                * update and dispatch every tick
+        * solve sync
+        handle top/down players better
         connection fail states
             disconnection
         better endgame screen for duel
@@ -44,18 +46,19 @@ import {getLobbyState} from "components/lobby/getLobbyState";
 
 function App() {
     const canvasRef = useRef(null as HTMLDivElement | null);
-    const gameState = observable({
+    const gameState = (observable({
         gameState: GAME_STATE.intro,
         score: {top: 0, bottom: 0},
         fillbars: {max: 100, top: 100, bottom: 100},
         colors: {top: 0x80ff80, bottom: 0xff8080},
         duration: 0,
         maxDuration: 30,
-        actions: {},
         time: {speed: 1},
         isGameOver: true
-    }) as GameState;
-    getLobbyState(gameState);
+    }) as any) as GameState;
+    // @ts-ignore
+    gameState.actions = {};
+    const ls = getLobbyState(gameState);
     const endGame = action(() => {
         gameState.time.speed = 0;
         gameState.isGameOver = true;

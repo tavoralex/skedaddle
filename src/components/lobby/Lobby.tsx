@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import {Button} from "components/common/Button";
 import {GameState, GAME_STATE} from "components/types";
 import {getLobbyState} from "./getLobbyState";
 import {autorun} from "mobx";
 import {ActionButton} from "./ActionButton";
+import {copyToClipboard} from "components/duel/copyToClipboard";
 
 const textStyle = {
     gridColumn: 1,
@@ -66,13 +67,17 @@ export const Lobby = (p: {data: GameState}) => {
                 {`LOBBY`}
             </div>
             <div style={rowStyle(2)}>
-                <div style={textStyle}>
-                    <div style={{color: "#80ff80"}}>{`Your key`}</div>
+                <div style={textStyle} onClick={() => copyToClipboard(state.ownId)}>
+                    <div style={{color: "#80ff80"}}>{`Your key, tap to copy it`}</div>
                     <div style={{paddingTop: "32px"}}>{state.ownId}</div>
                 </div>
             </div>
             <div style={rowStyle(3)}>
-                <div style={{...textStyle, color: "#80ff80"}}>{`Enter friend's key`}</div>
+                <div
+                    style={{...textStyle, color: "#80ff80"}}
+                    onClick={() =>
+                        navigator.clipboard.readText().then(clipText => setfriendKey(clipText))
+                    }>{`Tap to paste key from clipboard`}</div>
             </div>
             <div style={rowStyle(4)}>
                 <input

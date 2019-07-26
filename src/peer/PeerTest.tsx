@@ -21,6 +21,16 @@ export const PeerTest = () => {
         });
     };
 
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        connectTo(state.target);
+    };
+
+    const onChange: ((event: React.ChangeEvent<HTMLInputElement>) => void) | undefined = e => {
+        setState({...state, target: e.currentTarget.value});
+    };
+
     return (
         <div
             style={{
@@ -35,21 +45,10 @@ export const PeerTest = () => {
             </div>
             <div style={{gridRow: 1, gridColumn: 2, alignSelf: "center", justifySelf: "center"}}>{state.text}</div>
             <div style={{gridRow: 2, gridColumn: 1, alignSelf: "center", justifySelf: "center"}}>
-                <form
-                    onSubmit={e => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        connectTo(state.target);
-                    }}>
+                <form onSubmit={onSubmit}>
                     <label>
                         Send to:
-                        <input
-                            type="text"
-                            value={state.target}
-                            onChange={e => {
-                                setState({...state, target: e.currentTarget.value});
-                            }}
-                        />
+                        <input type="text" value={state.target} onChange={onChange} />
                     </label>
                     <input type="submit" value="Submit" />
                 </form>

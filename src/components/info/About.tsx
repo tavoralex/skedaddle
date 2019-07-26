@@ -21,7 +21,7 @@ export const About = (p: {data: GameState}) => {
                     justifySelf: "center",
                     fontWeight: 600,
                     color: "#80c0ff",
-                    fontSize: "32pt"
+                    fontSize: "28pt"
                 }}>
                 {`SKEDADDLE`}
             </div>
@@ -47,8 +47,9 @@ export const About = (p: {data: GameState}) => {
                         paddingRight: "8px"
                     }}>
                     {`a 2-player game by 
+                    
                     `}
-                    <span style={{fontSize: "24pt", color: "#80ff80"}}>{`Alex Tavor`}</span>
+                    <span style={{fontSize: "20pt", color: "#80ff80"}}>{`Alex Tavor`}</span>
                 </div>
             </div>
             <div
@@ -66,13 +67,13 @@ export const About = (p: {data: GameState}) => {
                         justifySelf: "center",
                         fontWeight: 400,
                         color: "white",
-                        fontSize: "22pt",
+                        fontSize: "20pt",
                         textAlign: "center",
                         whiteSpace: "pre-line",
                         paddingRight: "8px",
                         paddingLeft: "8px"
                     }}>
-                    {`Duel by pushing things up with your finger!`}
+                    {`Duel by pushing things with your finger!`}
                 </div>
             </div>
             <div

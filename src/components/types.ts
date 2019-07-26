@@ -1,6 +1,5 @@
 import {IBoid} from "./../boids/makeBoids";
 import {ITime} from "utils/loop/timeVariableLoop";
-import {string} from "prop-types";
 
 export enum GAME_STATE {
     "intro" = "intro",
@@ -27,7 +26,7 @@ export type GameState = {
     score: {top: number; bottom: number};
     colors: {top: number; bottom: number};
     fillbars: {max: number; top: number; bottom: number};
-    actions: {reset?: () => void; startGame?: () => void; endGame?: () => void};
+    actions: {reset: () => void; startGame: () => void; endGame: () => void};
     time: ITime;
     duration: number;
     maxDuration: number;
@@ -35,12 +34,14 @@ export type GameState = {
     lobbyState?: LobbyState;
 };
 
-export type PeerBoid = IBoid & {node: number};
+export type PeerBoid = {position: {x: number; y: number}; velocity: {x: number; y: number}};
 
 export type PeerData = {
     isOP?: boolean;
+    isGameOver?: boolean;
     isReady?: boolean;
     nodesTouched?: number[];
     boids?: PeerBoid[];
     timeLeft?: number;
+    score?: {top: number; bottom: number};
 };

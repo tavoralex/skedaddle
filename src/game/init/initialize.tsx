@@ -15,46 +15,48 @@ const makeSyncPeers = (
 ) => () => {
     const ls = gameState.lobbyState;
     if (!ls) return;
-    if (ls.ownPeerData.nodesTouched && ls.ownPeerData.nodesTouched.length) {
-        ls.send && ls.send(ls.ownPeerData);
-        ls.ownPeerData.nodesTouched = [] as number[];
-    }
     if (ls.otherPeerData.nodesTouched && ls.otherPeerData.nodesTouched.length) {
         droppers.dropFromPeer(ls.otherPeerData.nodesTouched);
         ls.otherPeerData.nodesTouched = [] as number[];
     }
-    // if (ls.ownPeerData.isOP) {
-    //     ls.ownPeerData.boids = boids.boids.map(boid => ({
-    //         node: boid.node,
-    //         position: {x: boid.position.x, y: boid.position.y},
-    //         velocity: boid.velocity,
-    //         drag: boid.drag,
-    //         speed: boid.speed,
-    //         thrust: boid.thrust,
-    //         radius: boid.radius
-    //     }));
-    // } else {
-    // // sync boids
-    // if (ls.otherPeerData.boids) {
-    //     while (ls.otherPeerData.boids.length > boids.boids.length) {
-    //         const b = boids.addBoid(ls.otherPeerData[boids.boids.length - 1]);
-    //     }
-    //     ls.otherPeerData.boids.forEach((b, i) => {
-    //         if (boids.boids.length <= i) {
-    //             boids.boids.pop();
-    //             return;
-    //         }
-    //         const ownBoid = boids.boids[i];
-    //         ownBoid.position.x = b.position.x;
-    //         ownBoid.position.y = b.position.y;
-    //         ownBoid.velocity = b.velocity;
-    //         ownBoid.drag = b.drag;
-    //         ownBoid.speed = b.speed;
-    //         ownBoid.thrust = b.thrust;
-    //         ownBoid.radius = b.radius;
-    //     });
-    // }
-    // }
+    if (ls.ownPeerData.isOP) {
+        ls.ownPeerData.isGameOver = gameState.isGameOver;
+        ls.ownPeerData.score = {...gameState.score};
+        ls.ownPeerData.boids = boids.boids.map(boid => ({
+            position: {x: boid.position.x, y: boid.position.y},
+            velocity: boid.velocity
+        }));
+    } else {
+        const isOtherGameOver = Boolean(ls.otherPeerData.isGameOver);
+        if (gameState.isGameOver && !isOtherGameOver) {
+            gameState.actions.startGame();
+        } else if (!gameState.isGameOver && isOtherGameOver) {
+            gameState.actions.endGame();
+        }
+        if (ls.otherPeerData.score) {
+            gameState.score.top = ls.otherPeerData.score.top;
+            gameState.score.bottom = ls.otherPeerData.score.bottom;
+        }
+        // sync boids
+        if (!gameState.isGameOver && ls.otherPeerData.boids && ls.otherPeerData.boids.length) {
+            while (ls.otherPeerData.boids.length > boids.boids.length) {
+                const maxIndex = boids.boids.length;
+                const peerBoid = ls.otherPeerData.boids[maxIndex];
+                boids.addBoid(peerBoid.position);
+            }
+            ls.otherPeerData.boids.forEach((b, i) => {
+                if (boids.boids.length <= i) {
+                    boids.boids.pop();
+                    return;
+                }
+                boids.syncBoid(b, i);
+            });
+        }
+    }
+    if (ls.ownPeerData.isOP || (ls.ownPeerData.nodesTouched && ls.ownPeerData.nodesTouched.length)) {
+        ls.send && ls.send(ls.ownPeerData);
+        ls.ownPeerData.nodesTouched = [] as number[];
+    }
 };
 export function initialize(gameCanvas: HTMLDivElement, gameState: GameState) {
     const onTopScored = () => {
@@ -76,6 +78,7 @@ export function initialize(gameCanvas: HTMLDivElement, gameState: GameState) {
     const fillbars = makeFillbars(gameState.fillbars);
     const droppers = makeScentDroppers(gameState, map, scent.data, fillbars);
     const syncPeers = makeSyncPeers(gameState, droppers, boids);
+
     const update = (delta: number) => {
         collectors.update(delta);
         droppers.update(delta);

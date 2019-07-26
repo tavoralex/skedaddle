@@ -1,3 +1,4 @@
+import {PeerBoid} from "./../components/types";
 import {IPoint, multiplyScalar, addVector, clamp, normalize} from "../utils/geom";
 import {IGridBoid} from "./IGridBoid";
 import {IBoidTemplate} from "./IBoidTemplate";
@@ -29,15 +30,6 @@ export class GridBoids {
         public scentToAvoid: IScent
     ) {
         this.initialize();
-    }
-
-    private initialize() {
-        this.boids = (makeBoids(INITIAL_BOIDS, this.boidTemplate) as any) as IGridBoid[];
-        const boidViewsObj = makeBoidsViews(this.display.hexTexture, MAX_BOIDS);
-        this.display.camera.addChild(boidViewsObj.view);
-        this.boidViews = boidViewsObj.sprites;
-        this.occupiableNodes = Array.from(this.grid.gridArr, node => new Set<IGridBoid>());
-        this.numNodes = this.grid.gridArr.length;
     }
 
     public reset() {
@@ -77,6 +69,16 @@ export class GridBoids {
             return;
         }
         this.boids.pop();
+    }
+
+    public syncBoid(syncWith: PeerBoid, index: number) {
+        const boid = this.boids[index];
+        boid.position.x = syncWith.position.x;
+        boid.position.y = syncWith.position.y;
+        boid.velocity.x = syncWith.velocity.x;
+        boid.velocity.y = syncWith.velocity.y;
+
+        boid.node = this.grid.getHexIdByPixel(boid.position);
     }
 
     private updateViews(delta?: number) {
@@ -132,6 +134,15 @@ export class GridBoids {
             applySteering(steer, boid, delta || 1);
             oNodes[boid.node].add(boid);
         });
+    }
+
+    private initialize() {
+        this.boids = (makeBoids(INITIAL_BOIDS, this.boidTemplate) as any) as IGridBoid[];
+        const boidViewsObj = makeBoidsViews(this.display.hexTexture, MAX_BOIDS);
+        this.display.camera.addChild(boidViewsObj.view);
+        this.boidViews = boidViewsObj.sprites;
+        this.occupiableNodes = Array.from(this.grid.gridArr, node => new Set<IGridBoid>());
+        this.numNodes = this.grid.gridArr.length;
     }
 }
 

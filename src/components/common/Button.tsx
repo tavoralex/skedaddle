@@ -10,7 +10,7 @@ export const Button = (p: {
     disabled?: boolean;
 }) => {
     const styleDefault = {
-        width: "300px",
+        width: "280px",
         height: "60px",
         backgroundColor: p.colors ? p.colors.default : "#ffff80",
         display: "grid",
@@ -39,17 +39,23 @@ export const Button = (p: {
         setStyle({...styleDefault});
     }, [isDown, isHover, colorDown, colorHover, styleDefault, p.disabled]);
 
+    const onMouseEnter = () => setIsHover(true);
+    const onMouseLeave = () => {
+        setIsHover(false);
+        setisDown(false);
+    };
+    const onMouseDown = () => setisDown(true);
+    const onMouseUp = () => setisDown(false);
+    const onTouchStart = () => setisDown(true);
+    const onTouchEnd = () => setisDown(false);
     return (
         <div
-            onMouseEnter={() => setIsHover(true)}
-            onMouseLeave={() => {
-                setIsHover(false);
-                setisDown(false);
-            }}
-            onMouseDown={() => setisDown(true)}
-            onMouseUp={() => setisDown(false)}
-            onTouchStart={() => setisDown(true)}
-            onTouchEnd={() => setisDown(false)}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            onMouseDown={onMouseDown}
+            onMouseUp={onMouseUp}
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
             onClick={p.onClick}
             style={style}>
             <div
@@ -60,7 +66,7 @@ export const Button = (p: {
                     alignSelf: "center",
                     justifySelf: "center",
                     fontWeight: 600,
-                    fontSize: "28pt",
+                    fontSize: "16pt",
                     padding: "8px",
                     userSelect: "none",
                     ...p.textStyle

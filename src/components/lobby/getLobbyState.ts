@@ -1,4 +1,3 @@
-import {seed} from "./../../utils/simplexNoise";
 import {LobbyState, PeerData, ConnectonResult} from "./../types";
 import {GameState, LobbyStatus} from "../types";
 import {observable, action} from "mobx";
@@ -22,8 +21,10 @@ export const getLobbyState = (gameState: GameState) => {
             },
             onData: action((d: PeerData) => {
                 lobbyState.otherPeerData.isReady = d.isReady;
-                lobbyState.otherPeerData.nodesTouched = d.nodesTouched;
-                lobbyState.otherPeerData.boids = d.boids;
+                lobbyState.otherPeerData.nodesTouched = d.nodesTouched || [];
+                lobbyState.otherPeerData.boids = d.boids || [];
+                lobbyState.otherPeerData.score = d.score;
+                lobbyState.otherPeerData.isGameOver = d.isGameOver;
             })
         });
         lobbyState.connectTo = connectTo;

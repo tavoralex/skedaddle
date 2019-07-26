@@ -31,7 +31,7 @@ export const IntroScreen = (p: {data: GameState}) => {
                     justifySelf: "center",
                     fontWeight: 600,
                     color: "#80c0ff",
-                    fontSize: "32pt"
+                    fontSize: "28pt"
                 }}>
                 {`SKEDADDLE`}
             </div>
