@@ -44,6 +44,10 @@ export const Lobby = (p: {data: GameState}) => {
         });
     }, []);
 
+    const onCopyClicked = () => copyToClipboard(state.ownId);
+    const onPasteClick = () => navigator.clipboard.readText().then(clipText => setfriendKey(clipText));
+    const onInputChange: ((event: React.ChangeEvent<HTMLInputElement>) => void) | undefined = e =>
+        setfriendKey(e.target.value);
     return (
         <div
             style={{
@@ -67,7 +71,7 @@ export const Lobby = (p: {data: GameState}) => {
                 {`LOBBY`}
             </div>
             <div style={rowStyle(2)}>
-                <div style={textStyle} onClick={() => copyToClipboard(state.ownId)}>
+                <div style={textStyle} onClick={onCopyClicked}>
                     <div style={{color: "#80ff80"}}>{`Your key, tap to copy it`}</div>
                     <div style={{paddingTop: "32px"}}>{state.ownId}</div>
                 </div>
@@ -75,14 +79,12 @@ export const Lobby = (p: {data: GameState}) => {
             <div style={rowStyle(3)}>
                 <div
                     style={{...textStyle, color: "#80ff80"}}
-                    onClick={() =>
-                        navigator.clipboard.readText().then(clipText => setfriendKey(clipText))
-                    }>{`Tap to paste key from clipboard`}</div>
+                    onClick={onPasteClick}>{`Tap to paste key from clipboard`}</div>
             </div>
             <div style={rowStyle(4)}>
                 <input
                     type="text"
-                    onChange={e => setfriendKey(e.target.value)}
+                    onChange={onInputChange}
                     value={friendKey}
                     style={{...textStyle, color: "black", height: "32px", width: "340px"}}
                 />

@@ -9,7 +9,7 @@ import {About} from "./info/About";
 import {Lobby} from "./lobby/Lobby";
 
 export const Hud = (p: {gameState: GameState}) => {
-    let hud = undefined;
+    let hud;
     const [gameState, setgameState] = useState(p.gameState.gameState);
 
     useEffect(() => {

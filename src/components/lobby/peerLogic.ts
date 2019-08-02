@@ -8,21 +8,9 @@ export const peerLogic = (p: {
 }) => {
     const {state, onData, onConnection} = p;
 
+    let isConnected = false;
+    let onConnected: () => void;
     const peer = new Peer(state.ownId);
-
-    const connectTo = async (id: string) => {
-        return new Promise<ConnectonResult>((resolve, reject) => {
-            state.status = "connecting";
-            const conn = peer.connect(id);
-            conn.on("open", () => {
-                state.status = "connected";
-                const send = conn.send.bind(conn);
-                onConnection({send, peer: conn.peer});
-                conn.on("data", onData);
-                resolve({send, peer: conn.peer});
-            });
-        });
-    };
 
     peer.on("connection", conn => {
         state.status = "connected";
@@ -30,6 +18,33 @@ export const peerLogic = (p: {
         onConnection({send, peer: conn.peer});
         conn.on("data", onData);
     });
+
+    peer.on("open", () => {
+        isConnected = true;
+        onConnected && onConnected();
+    });
+
+    const connectTo = async (id: string) => {
+        state.status = "connecting";
+        const connectionResult = await new Promise<ConnectonResult>((resolve, reject) => {
+            const addOnConnect = () => {
+                const conn = peer.connect(id);
+                conn.on("open", () => {
+                    state.status = "connected";
+                    const send = conn.send.bind(conn);
+                    onConnection({send, peer: conn.peer});
+                    conn.on("data", onData);
+                    resolve({send, peer: conn.peer});
+                });
+            };
+            isConnected ? addOnConnect() : (onConnected = addOnConnect);
+        });
+        state.ownPeerData.isOP = true;
+        state.peer = connectionResult.peer;
+        state.send = connectionResult.send;
+        state.status = "awaiting-peer-ready";
+        state.send({isReady: true});
+    };
 
     return connectTo;
 };

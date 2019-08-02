@@ -37,21 +37,24 @@ const makeSyncPeers = (
             gameState.score.top = ls.otherPeerData.score.top;
             gameState.score.bottom = ls.otherPeerData.score.bottom;
         }
+        if (gameState.isGameOver) return;
+
         // sync boids
-        if (!gameState.isGameOver && ls.otherPeerData.boids && ls.otherPeerData.boids.length) {
-            while (ls.otherPeerData.boids.length > boids.boids.length) {
+        const othersBoids = ls.otherPeerData.boids || boids.boids;
+        while (othersBoids.length !== boids.boids.length) {
+            if (othersBoids.length > boids.boids.length) {
                 const maxIndex = boids.boids.length;
-                const peerBoid = ls.otherPeerData.boids[maxIndex];
+                const peerBoid = othersBoids[maxIndex];
                 boids.addBoid(peerBoid.position);
             }
-            ls.otherPeerData.boids.forEach((b, i) => {
-                if (boids.boids.length <= i) {
-                    boids.boids.pop();
-                    return;
-                }
-                boids.syncBoid(b, i);
-            });
+            while (othersBoids.length < boids.boids.length) {
+                boids.boids.pop();
+            }
         }
+        othersBoids.forEach((b, i) => {
+            boids.syncBoid(b, i);
+        });
+        ls.otherPeerData.boids = othersBoids;
     }
     if (ls.ownPeerData.isOP || (ls.ownPeerData.nodesTouched && ls.ownPeerData.nodesTouched.length)) {
         ls.send && ls.send(ls.ownPeerData);

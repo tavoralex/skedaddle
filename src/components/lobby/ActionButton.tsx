@@ -21,14 +21,7 @@ export const ActionButton = (p: {data: GameState; friendKey: string; status: Lob
                         disabled: !Boolean(friendKey),
                         title: "JOIN",
                         onClick: action(async () => {
-                            if (state.connectTo) {
-                                const reply = await state.connectTo(friendKey);
-                                state.ownPeerData.isOP = true;
-                                state.peer = reply.peer;
-                                state.send = reply.send;
-                                state.status = "awaiting-peer-ready";
-                                state.send({isReady: true});
-                            }
+                            state.connectTo && state.connectTo(friendKey);
                         })
                     }}
                 />
@@ -40,7 +33,7 @@ export const ActionButton = (p: {data: GameState; friendKey: string; status: Lob
                     style={{marginTop: "32px", placeSelf: "center center"}}
                     {...{
                         disabled: true,
-                        title: "DUEL!"
+                        title: "CONNECTING"
                     }}
                 />
             );

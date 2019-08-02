@@ -36,7 +36,17 @@ import {getLobbyState} from "components/lobby/getLobbyState";
                 * get tap positions
                 * update and dispatch every tick
         * solve sync
+        * solve sync even better
+        * better lobby
+            * goto lobby and connect via url
         handle top/down players better
+            give each player a unique color
+                color selector in lobby
+                row of colored buttons
+                randomly select color
+                show opponent color
+            give each player a name
+                name is written on their half of the board
         connection fail states
             disconnection
         better endgame screen for duel
@@ -89,6 +99,17 @@ function App() {
                 (gameState.gameState === GAME_STATE.practice || gameState.gameState === GAME_STATE.duel) && startGame()
         );
     }, []);
+
+    if (window.location.hash) {
+        const autoConnect = () => {
+            const peer = window.location.hash.substr(1);
+            window.location.hash = "";
+            ls.peer = peer;
+            ls.connectTo && ls.connectTo(peer);
+            gameState.gameState = GAME_STATE.lobby;
+        };
+        autoConnect();
+    }
     return (
         <div style={{position: "relative", backgroundColor: "black", width: "100vw", height: "100vh"}}>
             <TimeCountdown {...{data: gameState}} />

@@ -25,13 +25,13 @@ export function makeCollectors(p: {
 
     views.sprites.forEach((sprite, i) => {
         sprite.tint = i < top.length ? colors.top : colors.bottom;
-        const p = grid.getPosAtNode(all[i]);
-        sprite.position.set(p.x, p.y);
+        const posAtNode = grid.getPosAtNode(all[i]);
+        sprite.position.set(posAtNode.x, posAtNode.y);
         sprite.scale.set(1, 1);
 
         const effectSprite = effectSprites[i];
         effectSprite.tint = i < top.length ? colors.top : colors.bottom;
-        effectSprite.position.set(p.x + effectSprite.width / 2, p.y + effectSprite.height / 2);
+        effectSprite.position.set(posAtNode.x + effectSprite.width / 2, posAtNode.y + effectSprite.height / 2);
         effectSprite.scale.set(1, 1);
         effectSprite.anchor.set(0.5, 0.5);
     });

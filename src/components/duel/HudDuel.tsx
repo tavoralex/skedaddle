@@ -36,10 +36,19 @@ export const HudDuel = (p: {data: GameState}) => {
         return autorun(() => setisGameOver(p.data.isGameOver));
     }, []);
 
+    const [topColor, settopColor] = useState(hexValueToString(data.colors.top));
+    useEffect(() => {
+        return autorun(() => settopColor(hexValueToString(data.colors.top)));
+    }, []);
+
+    const [bottomColor, setbottomColor] = useState(hexValueToString(data.colors.bottom));
+    useEffect(() => {
+        return autorun(() => setbottomColor(hexValueToString(data.colors.bottom)));
+    }, []);
+
     const getStringVal = (v: number) => (v > 9 ? v : `0${v}`);
     const maxWidth = window.innerWidth - 120;
-    const topColor = hexValueToString(data.colors.top);
-    const bottomColor = hexValueToString(data.colors.bottom);
+
     return (
         <div>
             {isGameOver && <DuelOver {...{data}} />}

@@ -6,11 +6,11 @@ export const boidTemplate = {
     olfaction: 0.001,
     hue: 0xff80ff,
     weights: {
-        separation: 6,
+        separation: 10,
         cohesion: 4,
         seekScent: 6,
         avoidScent: 8,
-        avoidObstacles: 10,
+        avoidObstacles: 12,
         alignment: 5
     }
 };
