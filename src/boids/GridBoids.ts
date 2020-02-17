@@ -1,5 +1,5 @@
 import {PeerBoid} from "./../components/types";
-import {IPoint, multiplyScalar, addVector, clamp, normalize} from "../utils/geom";
+import {IPoint, multiplyScalar, addVector, clamp, normalize, distanceSq} from "../utils/geom";
 import {IGridBoid} from "./IGridBoid";
 import {IBoidTemplate} from "./IBoidTemplate";
 import Grid from "../scentmap/hexgrid/Grid";
@@ -11,10 +11,12 @@ import {makeBoid} from "./makeBoid";
 import {separation} from "./behavior/separation";
 import {cohesion} from "./behavior/cohesion";
 import {getSteering} from "./getSteering";
+import {wander} from "./behavior/wander";
+import {alignment} from "./behavior/alignment";
 
-const MAX_NEIGHBORS = 12;
 const INITIAL_BOIDS = 0;
 const MAX_BOIDS = 200;
+const DETECTION_RADIUS = 1000;
 
 export class GridBoids {
     public boids!: IGridBoid[];
@@ -103,13 +105,7 @@ export class GridBoids {
             boid.node && oNodes[boid.node].delete(boid);
             boid.node = node;
             const neighborNodes = this.grid.gridArr[boid.node].neighbors.filter(n => !isNaN(n));
-            let neighbors: IGridBoid[] = [];
-            const obstacles = new Array<IPoint>();
-            neighborNodes.forEach(n => {
-                const ns = Array.from(oNodes[n]);
-                ns.length && neighbors.length < MAX_NEIGHBORS && (neighbors = neighbors.concat(ns));
-                !this.walls[n] && obstacles.push(this.grid.gridArr[n].position);
-            });
+            const obstacles = neighborNodes.filter(n => !this.walls[n]).map(n => this.grid.gridArr[n].position);
 
             let highestScent: number = 0;
             let avoidGoal: IPoint | null = null;
@@ -122,13 +118,34 @@ export class GridBoids {
                 }
             }
             const avoidGoals = avoidGoal ? [avoidGoal] : [];
+            const neighbors: IGridBoid[] = this.boids.filter(
+                b => distanceSq(b.position, boid.position) <= DETECTION_RADIUS
+            );
             const forces = [
                 multiplyScalar(separation(boid, obstacles), this.boidTemplate.weights.avoidObstacles * 100),
-                multiplyScalar(separation(boid, neighbors.map(n => n.position)), this.boidTemplate.weights.separation),
+                multiplyScalar(
+                    separation(
+                        boid,
+                        neighbors.map(n => n.position)
+                    ),
+                    this.boidTemplate.weights.separation
+                ),
                 multiplyScalar(separation(boid, avoidGoals), this.boidTemplate.weights.avoidScent),
-                multiplyScalar(cohesion(boid, neighbors.map(n => n.position)), this.boidTemplate.weights.cohesion)
-                // multiplyScalar(wander(boid, current), 1),
-                // multiplyScalar(alignment(boid, neighbors.map(n => n.velocity)), this.boidTemplate.weights.alignment)
+                multiplyScalar(
+                    cohesion(
+                        boid,
+                        neighbors.map(n => n.position)
+                    ),
+                    this.boidTemplate.weights.cohesion
+                ),
+                multiplyScalar(wander(boid, 0 + Math.random() > 0.95 ? Math.floor(-90 + Math.random() * 180) : 0), 4)
+                // multiplyScalar(
+                //     alignment(
+                //         boid,
+                //         neighbors.map(n => n.velocity)
+                //     ),
+                //     this.boidTemplate.weights.alignment
+                // )
             ];
             const steer = getSteering(boid, forces);
             applySteering(steer, boid, delta || 1);

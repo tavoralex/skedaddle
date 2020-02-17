@@ -8,48 +8,49 @@ import {getLobbyState} from "components/lobby/getLobbyState";
 
 /*
   TODO
-    * fillbar
-        * spend rate
-        * refill rate
-    proper ui
-        * game screen (hud)
-        * before game screen
-        * screens management
-        * practice screen
-            * hud
-               *  with back button
-                * without opponent stuff
-        * duel screen
-        * game over detection
-        * game over screens
-            * practice
-            * duel
-    * game time counter
-    * moar colors
-    peer connection
-        * matchmaking screen
-        * find/await peer, make connection
-        *  get mutual agreement to play
-            * each has to click "READY"
-        * pass data
-            * use PeerData
-                * get tap positions
-                * update and dispatch every tick
-        * solve sync
-        * solve sync even better
-        * better lobby
-            * goto lobby and connect via url
-        handle top/down players better
-            give each player a unique color
-                color selector in lobby
-                row of colored buttons
-                randomly select color
-                show opponent color
-            give each player a name
-                name is written on their half of the board
-        connection fail states
-            disconnection
+    matchmaking
+        server
+            runs peerjs
+            keeps list of connected users
+            user id is a string of profile json
+            heorku it for now
+        lobby
+            ...connecting modal
+            list of waiting users
+            toggle "waiting" status
+            keepalive
+                see if can keep peerjs connection alive
+                poll at 10s interval
+            inactivity timeout
+            disconnected modal, with reconnect and exit buttons
+        user settings
+            user icon & name always visible
+                random name from default to https://namey.muffinlabs.com/
+                random icon from https://www.gravatar.com/avatar/[numeric id]?d=retro
+                    where numeric id is randomInt(0,99999999999999999999999999999999)
+        lobby 2
+            clearer status
+                have a log on screen 
+                    awaiting connection
+                        log is small
+                    in connection
+                        connecting
+                        awaiting confirmation
+                        requesting confirmation
+                        confirmed, starting game
+        user personalization
+            user icon is clickable, leads to options screen
+            options screen
+                choose name
+                choose color
+                choose icon link            
+        add name verification with server
+    better ui
         better endgame screen for duel
+        better in-game ui
+    connection fail states
+        disconnected from peer
+        disconnected from serve
     solve bug where boids get stuck in walls
     solve bug where switching tab and returning messes boids positions up
 */
@@ -59,7 +60,7 @@ function App() {
     const gameState = (observable({
         gameState: GAME_STATE.intro,
         score: {top: 0, bottom: 0},
-        fillbars: {max: 100, top: 100, bottom: 100},
+        fillbars: {max: 10, top: 10, bottom: 10},
         colors: {top: 0x80ff80, bottom: 0xff8080},
         duration: 0,
         maxDuration: 30,

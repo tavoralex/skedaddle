@@ -19,7 +19,7 @@ export const Button = (p: {
     };
     const [isDown, setisDown] = useState(false);
     const [isHover, setIsHover] = useState(false);
-    const [style, setStyle] = useState(styleDefault);
+    const [style, setStyle] = useState({...styleDefault});
     const colorDown = p.colors ? p.colors.down : "green";
     const colorHover = p.colors ? p.colors.hover : "lightgrey";
 
@@ -27,17 +27,14 @@ export const Button = (p: {
         if (p.disabled) {
             setStyle({...styleDefault, color: "darkgrey", backgroundColor: "lightgrey", pointerEvents: "none"});
             return;
-        }
-        if (isDown) {
+        } else if (isDown) {
             setStyle({...styleDefault, backgroundColor: colorDown});
             return;
-        }
-        if (isHover) {
+        } else if (isHover) {
             setStyle({...styleDefault, backgroundColor: colorHover});
             return;
-        }
-        setStyle({...styleDefault});
-    }, [isDown, isHover, colorDown, colorHover, styleDefault, p.disabled]);
+        } else setStyle({...styleDefault});
+    }, [isDown, isHover, p.disabled]);
 
     const onMouseEnter = () => setIsHover(true);
     const onMouseLeave = () => {

@@ -1,6 +1,6 @@
 import timeVariableLoop from "utils/loop/timeVariableLoop";
 import {makeCollectors} from "game/makeCollectors";
-import {GameState} from "components/types";
+import {GameState, GAME_STATE} from "components/types";
 import {makeScentDroppers} from "./makeScentDroppers";
 import {makeBoids, populateBoids} from "./makeBoids";
 import {makeAvoidScent} from "./makeAvoidScent";
@@ -15,6 +15,7 @@ const makeSyncPeers = (
 ) => () => {
     const ls = gameState.lobbyState;
     if (!ls) return;
+    if (gameState.gameState !== GAME_STATE.duel) return;
     if (ls.otherPeerData.nodesTouched && ls.otherPeerData.nodesTouched.length) {
         droppers.dropFromPeer(ls.otherPeerData.nodesTouched);
         ls.otherPeerData.nodesTouched = [] as number[];

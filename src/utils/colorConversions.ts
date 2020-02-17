@@ -1,5 +1,7 @@
+/* eslint-disable */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-sequences */
+
 const letters = "0123456789ABCDEF";
 
 export function randomColor() {

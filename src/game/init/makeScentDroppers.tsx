@@ -17,9 +17,10 @@ export const makeScentDroppers = (
     const droppers: IDroppers = {updates: []};
     let isDropping = false;
     let lastDelta = 0;
-    const dropOwn = (node: number) => {
+    const dropOwn = (node: number, cost: number = 2) => {
+        if (fillbars.bars.top < cost) return;
         droppers.updates.push(makeScentDropper(scent, node, scent.seconds));
-        fillbars.bars.top -= 1;
+        fillbars.bars.top = Math.max(fillbars.bars.top - cost, 0);
         const ls = gameState.lobbyState;
         if (ls) {
             ls.ownPeerData.nodesTouched && ls.ownPeerData.nodesTouched.push(node);

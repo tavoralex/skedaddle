@@ -1,4 +1,4 @@
-const config = {min: 0, refillPerSecond: 20};
+const config = {min: 0, refillPerSecond: 10};
 
 export function makeFillbars(bars: {max: number; top: number; bottom: number}) {
     const updateBar = (bar: number, delta: number) => {

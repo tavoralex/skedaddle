@@ -9,7 +9,7 @@ export const IntroScreen = (p: {data: GameState}) => {
 
     useEffect(() => {
         return autorun(() => {
-            setisVisible(data.gameState === GAME_STATE.intro);
+            (data.gameState === GAME_STATE.intro) !== isVisible && setisVisible(data.gameState === GAME_STATE.intro);
         });
     }, [data.gameState]);
 

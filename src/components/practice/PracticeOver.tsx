@@ -17,13 +17,13 @@ export const PracticeOver = (p: {data: GameState}) => {
                 style={{
                     gridRow: 1,
                     gridColumn: 1,
-                    alignSelf: "center",
-                    justifySelf: "center",
                     fontWeight: 600,
                     color: "red",
-                    fontSize: "32pt"
+                    fontSize: "32pt",
+                    alignSelf: "center",
+                    textAlign: "center"
                 }}>
-                {`GAME OVER`}
+                GAME OVER
             </div>
             <div
                 style={{

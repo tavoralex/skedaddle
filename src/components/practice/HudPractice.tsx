@@ -1,19 +1,31 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {GameState, GAME_STATE} from "../types";
 import {hexValueToString} from "utils/colorConversions";
 import {autorun} from "mobx";
 import {Button} from "components/common/Button";
 import {PracticeOver} from "./PracticeOver";
+import {isMobile} from "react-device-detect";
 
 const fontStyle = {
     textShadow: "-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000",
     position: "fixed" as "fixed",
-    fontSize: "24pt"
+    fontSize: "34pt"
 };
 
 export const HudPractice = (p: {data: GameState}) => {
     const {data} = p;
     const [topValue, settopValue] = useState(p.data.score.top);
+
+    const onBackKeyDown = useCallback(() => {
+        p.data.gameState = GAME_STATE.intro;
+    }, []);
+
+    useEffect(() => {
+        document.addEventListener("backbutton", onBackKeyDown, true);
+        return () => {
+            document.removeEventListener("backbutton", onBackKeyDown, false);
+        };
+    }, []);
 
     useEffect(() => {
         return autorun(() => settopValue(p.data.score.top));
@@ -30,23 +42,34 @@ export const HudPractice = (p: {data: GameState}) => {
         return autorun(() => setisGameOver(p.data.isGameOver));
     }, []);
     const getStringVal = (v: number) => (v > 9 ? v : `0${v}`);
-    const maxWidth = window.innerWidth - 120;
+    const maxWidth = window.innerWidth - 100;
     const topColor = hexValueToString(data.colors.top);
     return (
         <div>
             {isGameOver && <PracticeOver {...{data}} />}
-            <div style={{...fontStyle, top: 4, left: 4, color: topColor}}>{getStringVal(topValue)}</div>
+            <div
+                style={{
+                    ...fontStyle,
+                    pointerEvents: "none",
+                    opacity: 0.75,
+                    top: "25%",
+                    textAlign: "center",
+                    color: topColor,
+                    width: "100%"
+                }}>
+                {getStringVal(topValue)}
+            </div>
             <div
                 style={{
                     position: "fixed",
                     top: 8,
                     height: 16,
-                    left: 90,
+                    left: 50 + (maxWidth - maxWidth * topFillbarValue) / 2,
                     width: topFillbarValue * maxWidth,
                     backgroundColor: topColor
                 }}
             />
-            {!isGameOver && (
+            {!isGameOver && !isMobile && (
                 <Button
                     {...{
                         title: "BACK",
